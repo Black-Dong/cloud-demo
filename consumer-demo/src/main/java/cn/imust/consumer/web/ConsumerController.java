@@ -1,6 +1,10 @@
 package cn.imust.consumer.web;
 
 import cn.imust.consumer.pojo.User;
+import com.netflix.hystrix.contrib.javanica.annotation.DefaultProperties;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
@@ -14,9 +18,10 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
-@EnableCircuitBreaker
+@Slf4j
 @RestController
 @RequestMapping("/consumer")
+@DefaultProperties(defaultFallback = "fallback")
 public class ConsumerController {
 
     @Autowired
@@ -33,8 +38,22 @@ public class ConsumerController {
     private RibbonLoadBalancerClient client;
 */
 
+    public String fallback(){
+        log.error("查询用户信息失败");
+        return "不好意思太拥挤了！";
+    }
+
+    public String queryByIdFallback(Long id){
+        log.error("查询用户信息失败 id:{}",id);
+        return "不好意思太拥挤了！";
+    }
+
     @GetMapping("{id}")
-    public User queryById(@PathVariable("id") Long id){
+    /*@HystrixCommand(fallbackMethod = "queryByIdFallback",commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "2000")
+    })*/
+    @HystrixCommand
+    public String queryById(@PathVariable("id") Long id){
 
 /*
         //1.0
@@ -47,13 +66,16 @@ public class ConsumerController {
         //随机，轮询，hash        -- 负载均衡器 ribbon
         ServiceInstance serviceInstance = client.choose("USER-SERVICE");
 */
-
-//        String url = "http://"+serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/user/" + id;
-//        System.out.println(url);
+/*
+        //1.0 2.0通用
+        String url = "http://"+serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/user/" + id;
+        System.out.println(url);
+*/
 
         //3.0
         String url = "http://USER-SERVICE/user/"+id;
-        User user = restTemplate.getForObject(url,User.class);
+//        User user = restTemplate.getForObject(url,User.class);
+        String user = restTemplate.getForObject(url,String.class);
 
         return user;
     }

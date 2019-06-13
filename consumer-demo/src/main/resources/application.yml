@@ -10,3 +10,19 @@ eureka:
 #  instance:
 #    prefer-ip-address: true
 #    ip-address: 127.0.0.1
+
+## 配置hystrix全局超时时间
+#hystrix:
+#  command:
+#    # 针对全局
+#    default:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000
+#    # 针对user-service 也可以写方法
+#    user-service:
+#      execution:
+#        isolation:
+#          thread:
+#            timeoutInMilliseconds: 3000

@@ -17,7 +17,12 @@ public class UserController {
 
     @RequestMapping("{id}")
     public User hello(@PathVariable("id")Long id){
-        User user = userService.queryById(id);
+
+        /*try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
         return userService.queryById(id);
     }
 }
