@@ -3,6 +3,7 @@ package cn.imust.consumer.web;
 import cn.imust.consumer.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.cloud.netflix.ribbon.RibbonLoadBalancerClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
+@EnableCircuitBreaker
 @RestController
 @RequestMapping("/consumer")
 public class ConsumerController {
@@ -49,6 +51,7 @@ public class ConsumerController {
 //        String url = "http://"+serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/user/" + id;
 //        System.out.println(url);
 
+        //3.0
         String url = "http://USER-SERVICE/user/"+id;
         User user = restTemplate.getForObject(url,User.class);
 

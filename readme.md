@@ -33,3 +33,24 @@
             service-url:
               defaultZone: http://eureka_ip:eureka_port/eureka
     ```
+* 在服务的调用方可以使用 `ribbon` 对负载进行优化(原理使用随机,轮询,hash 默认是轮询)
+    * 导入依赖
+    ```
+    <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
+    </dependency>
+    ```
+    * 启动类的RestTemplate上注解(3.0 前两个版本请看源代码)
+    ```
+    @Bean
+    @LoadBalanced
+    public RestTemplate restTemplate(){
+        return new RestTemplate();
+    }
+    ```
+    * Controller
+    ```
+    String url = "http://USER-SERVICE/user/"+id;
+    User user = restTemplate.getForObject(url,User.class);
+    ```
