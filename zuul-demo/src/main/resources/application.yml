@@ -18,13 +18,13 @@ zuul:
     user-service:
       path: /user/**
       serviceId: user-service
-        # 让前缀不忽略 即不需要传入 /user/user/4 而是 /user/4
-        strip-prefix: false
+      # 让前缀不忽略 即不需要传入 /user/user/4 而是 /user/4
+      strip-prefix: false
   # 默认不配置的
   ignored-services:
     - consumer-service
   # 全局前缀
   prefix: /fix
-  # 全局让前缀不忽略 即不需要传入 /user/user/4 而是 /user/4
+  # 全局让前缀忽略
   strip-prefix: true
 
