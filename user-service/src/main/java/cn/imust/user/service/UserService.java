@@ -13,7 +13,12 @@ public class UserService {
     private UserMapper userMapper;
 
     public User queryById(Long id){
-        User user = userMapper.selectByPrimaryKey(id);
+        /*try {
+            Thread.sleep(2000L);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }*/
+
         return userMapper.selectByPrimaryKey(id);
     }
 

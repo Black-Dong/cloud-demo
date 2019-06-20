@@ -71,7 +71,7 @@
                 @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "2000")
         })
     ```
-    * execution.isolation.thread.timeoutInMilliseconds自定义超时时常
+    * execution.isolation.thread.timeoutInMilliseconds自定义超时时长
     * queryByIdFallback方法的返回值和参数列表必须和被@HystrixCommand修饰的方法返回值一致
  * 在controller上(fallback空参)
     * @DefaultProperties(defaultFallback = "fallback")

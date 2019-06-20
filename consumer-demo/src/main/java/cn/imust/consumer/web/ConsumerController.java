@@ -49,8 +49,10 @@ public class ConsumerController {
     }
 
     @GetMapping("{id}")
-    /*@HystrixCommand(fallbackMethod = "queryByIdFallback",commandProperties = {
-            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "2000")
+    //@HystrixCommand(fallbackMethod = "queryByIdFallback")
+    //在类上添加@DefaultProperties(defaultFallback = "fallback")后，再配置某个方法的超时时常
+    /*@HystrixCommand(commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "3000")
     })*/
     @HystrixCommand
     public String queryById(@PathVariable("id") Long id){
@@ -67,7 +69,7 @@ public class ConsumerController {
         ServiceInstance serviceInstance = client.choose("USER-SERVICE");
 */
 /*
-        //1.0 2.0通用
+        //1.0 && 2.0 通用
         String url = "http://"+serviceInstance.getHost() + ":" + serviceInstance.getPort()+"/user/" + id;
         System.out.println(url);
 */
