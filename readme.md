@@ -75,8 +75,39 @@
     * queryByIdFallback方法的返回值和参数列表必须和被@HystrixCommand修饰的方法返回值一致
  * 在controller上(fallback空参)
     * @DefaultProperties(defaultFallback = "fallback")
+    
+### feign使用
+ * 导入依赖
+     ```
+     <!--feign-->
+     <dependency>
+         <groupId>org.springframework.cloud</groupId>
+         <artifactId>spring-cloud-starter-openfeign</artifactId>
+     </dependency>
+     ```
+  * 启动类上添加注解
+     * @EnableFeignClients
+  * 创建Client类
+  ```java
+@FeignClient("USER-SERVICE")
+public interface UserClient {
 
- 
+    @GetMapping("user/{id}")
+    User queryById(@PathVariable("id") Long id);
+}
+
+```
+  * 在controller使用
+  ```java
+@Autowired
+    private UserClient userClient;
+    @GetMapping("{id}")
+    public User queryById(@PathVariable("id") Long id){
+        User user = userClient.queryById(id);
+        return user;
+    }
+```
+     
  
 # @SpringCloudApplication
 ```
