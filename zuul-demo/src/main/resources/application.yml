@@ -28,3 +28,14 @@ zuul:
   # 全局让前缀忽略
   strip-prefix: true
 
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+            timeoutInMilliseconds: 6000
+
+ribbon:
+  ConnectionTimeout: 500
+  ReadTimeout: 2000
