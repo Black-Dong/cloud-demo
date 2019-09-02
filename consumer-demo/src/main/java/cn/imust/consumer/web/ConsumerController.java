@@ -14,10 +14,10 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequestMapping("/consumer")
-//@DefaultProperties(defaultFallback = "fallback")
+//@DefaultProperties(defaultFallback = "fallback")  // 定义全局熔断方法
 public class ConsumerController {
 
-    //4.0
+    //4.0 使用Feign
 //    @Qualifier("userClientFillback")
     @Autowired
     private UserClient userClient;
@@ -35,11 +35,11 @@ public class ConsumerController {
 //    private DiscoveryClient discoveryClient;
 //*/
 ///*
-//    //2.0
+//    //2.0 RibbonLoadBalancerClient为负载均衡ribbon的最后实现类
 //    @Autowired
 //    private RibbonLoadBalancerClient client;
 //*/
-//
+//    // 熔断方法   返回值需要与所有需要熔断的方法返回值一致
 //    public String fallback(){
 //        log.error("查询用户信息失败");
 //        return "不好意思太拥挤了！";
@@ -52,7 +52,7 @@ public class ConsumerController {
 //
 //    @GetMapping("{id}")
 //    //@HystrixCommand(fallbackMethod = "queryByIdFallback")
-//    //在类上添加@DefaultProperties(defaultFallback = "fallback")后，再配置某个方法的超时时常
+//    // 针对全局：在类上添加@DefaultProperties(defaultFallback = "fallback")后，再配置某个方法的超时时常
 //    /*@HystrixCommand(commandProperties = {
 //            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds",value = "3000")
 //    })*/
