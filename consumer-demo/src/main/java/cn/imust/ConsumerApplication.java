@@ -20,7 +20,7 @@ import org.springframework.web.client.RestTemplate;
 public class ConsumerApplication {
 
     @Bean
-    @LoadBalanced
+    @LoadBalanced   // 当使用feign时，我们不再需要配置RestTemplate
     public RestTemplate restTemplate(){
         return new RestTemplate();
     }

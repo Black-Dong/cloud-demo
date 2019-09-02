@@ -1,4 +1,4 @@
-## 微服务学习
+## 微服务学习（推荐实战教程 B站 [黑马乐优商城IDEA最新](https://www.bilibili.com/video/av55444350?p=35)）
 
 ### eureka使用
 * 添加依赖

@@ -14,20 +14,24 @@ spring:
 # 路由规则
 zuul:
   routes:
-    # 默认都配置 user-service: /user-service/**
+    # 默认都配置(路由名称，可以随便写，
+      # 习惯上是服务名/ID(此时可以像后边一样，serviceId: /path/**  添加strip-prefix: fals)) user-service: /user-service/**
+        # 不配置，默认是这样子 serviceId: /serviceId/**
     user-service:
       path: /user/**
+      # url: http://localhost:xxxx/
       serviceId: user-service
       # 让前缀不忽略 即不需要传入 /user/user/4 而是 /user/4
       strip-prefix: false
   # 默认不配置的
   ignored-services:
     - consumer-service
-  # 全局前缀
+  # 全局前缀 配置后可以知道是否是通过zuul
   prefix: /fix
   # 全局让前缀忽略
   strip-prefix: true
 
+# 配置熔断时间
 hystrix:
   command:
     default:
@@ -36,6 +40,7 @@ hystrix:
           thread:
             timeoutInMilliseconds: 6000
 
+# 会根据服务名自动负载均衡
 ribbon:
   ConnectionTimeout: 500
   ReadTimeout: 2000
